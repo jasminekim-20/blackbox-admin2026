@@ -1,11 +1,8 @@
-# BLACKBOX 33기 모집 웹사이트
-
-서강대학교 중앙창업동아리 BLACKBOX 33기 모집을 위한 정적 웹사이트입니다. 메인 소개 페이지, 지원서 제출 페이지, 제출 완료 페이지, 운영자 지원자 대시보드로 구성되어 있으며 Vercel 정적 호스팅과 Serverless Functions를 사용합니다.
+BLACKBOX 33기 모집 웹사이트
 
 ## 배포 URL
 
 - Main: https://blackbox-theta.vercel.app
-- Application: https://blackbox-theta.vercel.app/application.html
 - Admin Dashboard: https://blackbox-theta.vercel.app/admin.html
 
 ## 기술 스택
@@ -22,7 +19,6 @@
 - Glassmorphism-style cards
 - 3D flip/rotation icon animation
 
-별도 프레임워크 없이 정적 파일 기반으로 구성되어 있습니다. `index.html`, `styles.css`, `script.js`가 메인 화면을 담당하고, `application.html`과 `admin.html`은 각 페이지 내부에 필요한 CSS/JS를 포함합니다.
 
 ### Backend
 
@@ -30,7 +26,7 @@
 - Node.js CommonJS API handlers
 - Notion API
 
-지원서 제출 및 운영자 대시보드는 브라우저에서 Notion API를 직접 호출하지 않습니다. Notion 토큰은 Vercel 환경변수로만 관리하고, 서버리스 함수가 Notion API와 통신합니다.
+Notion 토큰은 Vercel 환경변수로만 관리
 
 ## 프로젝트 구조
 
@@ -56,31 +52,12 @@ blackbox/
 └─ .vercelignore
 ```
 
-## 로컬 실행
-
-정적 페이지 확인만 필요하면 로컬 서버를 띄우면 됩니다.
-
-```bash
-python -m http.server 5173
-```
-
-브라우저에서 아래 주소로 확인합니다.
-
-```txt
-http://localhost:5173
-```
-
-단, `/api/apply`, `/api/admin-applications` 같은 Vercel Serverless Functions는 일반 Python 서버에서는 동작하지 않습니다. API까지 로컬에서 확인하려면 Vercel CLI를 사용합니다.
-
-```bash
-vercel dev
-```
 
 ## 주요 화면
 
 ### `index.html`
 
-메인 모집 사이트입니다.
+메인 모집 사이트.
 
 - Hero
 - About
@@ -90,13 +67,13 @@ vercel dev
 - Join Us
 - Footer
 
-프로젝트 탭은 `script.js`에서 `data-generation` 값을 기준으로 필터링합니다.
+프로젝트 탭은 `script.js`에서 `data-generation` 값을 기준으로 필터링.
 
 ```html
 <article class="image-card reveal-card project-card" data-generation="32">
 ```
 
-기수 버튼은 아래처럼 연결됩니다.
+기수 버튼은 아래처럼 연결.
 
 ```html
 <button class="is-active" data-generation="32" type="button">32기</button>
@@ -104,7 +81,7 @@ vercel dev
 
 ### `application.html`
 
-지원자가 직접 작성하는 지원서 페이지입니다.
+지원자가 직접 작성하는 지원서 페이지
 
 폼 제출 방식:
 
@@ -124,18 +101,18 @@ fetch(form.action, {
 window.location.href = 'application-thanks.html';
 ```
 
-지원서 필드명은 `api/apply.js`의 `FIELD_LABELS`와 맞아야 합니다. 프론트의 `name` 속성을 바꿀 경우 백엔드의 필드 목록도 같이 수정해야 합니다.
+지원서 필드명은 `api/apply.js`의 `FIELD_LABELS`와 맞아야 한다. 프론트의 `name` 속성을 바꿀 경우 백엔드의 필드 목록도 같이 수정해야 한다.
 
 ### `admin.html`
 
-운영진이 지원서를 확인하는 대시보드입니다.
+운영진이 지원서를 확인하는 대시보드
 
 - 운영자 비밀번호 입력
 - 지원자 목록 조회
 - 지원자별 기본 정보 확인
 - 문항별 답변 확인
 
-대시보드는 `/api/admin-applications`에 비밀번호를 POST로 전달합니다.
+대시보드는 `/api/admin-applications`에 비밀번호를 POST로 전달
 
 ```js
 fetch('/api/admin-applications', {
@@ -147,13 +124,13 @@ fetch('/api/admin-applications', {
 });
 ```
 
-브라우저에는 Notion 토큰이 노출되지 않습니다.
+브라우저에는 Notion 토큰이 노출되지 않는다
 
 ## API
 
 ### `POST /api/apply`
 
-지원서 제출 API입니다. `application.html`에서 전달한 form-urlencoded 데이터를 받아 Notion 하위 페이지로 생성합니다.
+지원서 제출 API입니다. `application.html`에서 전달한 form-urlencoded 데이터를 받아 Notion 하위 페이지로 생성
 
 #### 환경변수
 
@@ -169,13 +146,13 @@ fetch('/api/admin-applications', {
 
 #### Notion 저장 구조
 
-현재 parent page ID는 `api/apply.js`와 `api/admin-applications.js`에 상수로 들어가 있습니다.
+현재 parent page ID는 `api/apply.js`와 `api/admin-applications.js`에 상수로 들어가 있다
 
 ```js
 const NOTION_PARENT_PAGE_ID = '3b759fed505280eebfe7c00313423a48';
 ```
 
-지원자 1명이 제출할 때마다 parent page 아래에 child page가 1개 생성됩니다.
+지원자 1명이 제출할 때마다 parent page 아래에 child page가 1개 생성된다
 
 페이지 제목 형식:
 
@@ -185,7 +162,7 @@ const NOTION_PARENT_PAGE_ID = '3b759fed505280eebfe7c00313423a48';
 
 ### `POST /api/admin-applications`
 
-운영자 대시보드 조회 API입니다. Notion parent page 아래의 child page를 읽고, 각 페이지의 block을 파싱해서 프론트에서 쓰기 쉬운 JSON으로 반환합니다.
+운영자 대시보드 조회 API. Notion parent page 아래의 child page를 읽고, 각 페이지의 block을 파싱해서 프론트에서 쓰기 쉬운 JSON으로 반환
 
 #### 환경변수
 
@@ -224,14 +201,13 @@ const NOTION_PARENT_PAGE_ID = '3b759fed505280eebfe7c00313423a48';
 
 ## Vercel 환경변수
 
-Vercel Project Settings 또는 Vercel CLI에서 아래 값을 설정해야 합니다.
+Vercel Project Settings 또는 Vercel CLI에서 아래 값을 설정해야한다.
 
 | Name | Required | Description |
 | --- | --- | --- |
 | `NOTION_TOKEN` | Yes | Notion Integration Secret |
 | `ADMIN_PASSWORD` | Yes | 운영자 대시보드 접속 비밀번호 |
 
-현재 API는 `Production` 환경 기준으로 사용됩니다. Preview 배포에서도 테스트하려면 Preview 환경에도 같은 변수를 추가해야 합니다.
 
 CLI 예시:
 
@@ -254,13 +230,13 @@ vercel env ls
 4. 해당 page 우측 상단 `...` 메뉴에서 Integration을 초대 또는 연결
 5. parent page ID를 `api/apply.js`, `api/admin-applications.js`의 `NOTION_PARENT_PAGE_ID`에 입력
 
-주의: Notion API는 Integration이 접근 권한을 가진 page만 읽고 쓸 수 있습니다. 권한이 없으면 지원서 제출 또는 대시보드 조회가 실패합니다.
+주의: Notion API는 Integration이 접근 권한을 가진 page만 읽고 쓸 수 있다. 권한이 없으면 지원서 제출 또는 대시보드 조회가 실패한다.
 
 ## 프론트엔드 수정 가이드
 
 ### 색상
 
-메인 색상은 `styles.css`의 `:root`에서 관리합니다.
+메인 색상은 `styles.css`의 `:root`에서 관리
 
 ```css
 :root {
@@ -273,7 +249,7 @@ vercel env ls
 
 ### 프로젝트 카드 추가
 
-`index.html`의 Project 섹션에 카드를 추가합니다.
+`index.html`의 Project 섹션에 카드를 추가
 
 ```html
 <article class="image-card reveal-card project-card" data-generation="32">
@@ -291,11 +267,11 @@ vercel env ls
 </article>
 ```
 
-필터링을 위해 `data-generation` 값이 탭 버튼의 `data-generation`과 일치해야 합니다.
+필터링을 위해 `data-generation` 값이 탭 버튼의 `data-generation`과 일치해야 한다
 
 ### 운영진 카드 수정
 
-운영진 정보는 `index.html`의 Members 섹션에서 수정합니다.
+운영진 정보는 `index.html`의 Members 섹션에서 수정
 
 ```html
 <article class="member-card">
@@ -306,7 +282,7 @@ vercel env ls
 </article>
 ```
 
-사진 비율은 CSS에서 정사각형 기반으로 잘립니다.
+사진 비율은 CSS에서 정사각형 기반으로 잘린다
 
 ```css
 .member-photo {
@@ -316,19 +292,19 @@ vercel env ls
 }
 ```
 
-개별 사진 위치를 조정하려면 전용 클래스를 추가해서 `object-position`을 조정합니다.
+개별 사진 위치를 조정하려면 전용 클래스를 추가해서 `object-position`을 조정
 
 ## 백엔드 수정 가이드
 
 ### 지원서 문항 추가/수정
 
-문항을 바꿀 때는 아래 3곳을 함께 수정해야 합니다.
+문항을 바꿀 때는 아래 3곳을 함께 수정해야 한다
 
 1. `application.html`의 input/textarea/radio `name`
 2. `api/apply.js`의 `FIELD_LABELS`
 3. `api/apply.js`의 `QUESTION_TITLES`
 
-운영자 대시보드 표시 문항도 바뀌면 `admin.html`의 `ANSWER_FIELDS`도 같이 수정합니다.
+운영자 대시보드 표시 문항도 바뀌면 `admin.html`의 `ANSWER_FIELDS`도 같이 수정
 
 ### Notion parent page 변경
 
@@ -341,34 +317,14 @@ vercel env ls
 const NOTION_PARENT_PAGE_ID = '새로운 page id';
 ```
 
-## 배포
 
-프로덕션 배포:
-
-```bash
-vercel deploy --prod --yes
-```
-
-현재 production alias:
-
-```txt
-https://blackbox-theta.vercel.app
-```
-
-GitHub에 반영:
-
-```bash
-git add .
-git commit -m "변경 내용"
-git push
-```
 
 ## 보안 주의사항
 
-- `NOTION_TOKEN`은 절대 코드에 직접 적지 않습니다.
-- `ADMIN_PASSWORD`도 코드에 직접 적지 않고 Vercel 환경변수로 관리합니다.
-- `admin.html`은 비밀번호 기반의 간단한 보호만 적용되어 있습니다. 더 강한 보안이 필요하면 OAuth, 세션 쿠키, 관리자 계정 인증을 별도로 도입해야 합니다.
-- Notion parent page는 운영진 외부에 공유하지 않는 것을 권장합니다.
+- `NOTION_TOKEN`은 절대 코드에 직접 적지 않는다
+- `ADMIN_PASSWORD`도 코드에 직접 적지 않고 Vercel 환경변수로 관리한다
+- `admin.html`은 비밀번호 기반의 간단한 보호만 적용되어 있습니다. 더 강한 보안이 필요하면 OAuth, 세션 쿠키, 관리자 계정 인증을 별도로 도입
+- Notion parent page는 운영진 외부에 공유하지 않는다
 
 ## 유지보수 체크리스트
 
