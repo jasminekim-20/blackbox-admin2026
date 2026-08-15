@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLACKBOX | 운영자 대시보드</title>
+  <style>
+    :root {
+      --black: #050506;
+      --ink: #171a20;
+      --muted: #6f7682;
+      --line: #e4e7ee;
+      --soft: #f5f7fb;
+      --blue: #20aef3;
+      --orange: #ff7a1a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--soft);
+      font-family: "Noto Sans KR", "Inter", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px clamp(18px, 5vw, 64px);
+      color: white;
+      background: var(--black);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 1.35rem;
+      letter-spacing: -.04em;
+    }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+    .home-link {
+      color: rgba(255,255,255,.72);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .92rem;
+    }
+    main {
+      width: min(100%, 1180px);
+      margin: 0 auto;
+      padding: 54px 18px 82px;
+    }
+    .intro {
+      margin-bottom: 28px;
+    }
+    .intro p {
+      margin: 0 0 10px;
+      color: var(--blue);
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .intro h1 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3.4vw, 2.8rem);
+      line-height: 1.05;
+      letter-spacing: -.06em;
+    }
+    .login-card,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 16px 42px rgba(17,19,24,.07);
+    }
+    .login-card {
+      max-width: 460px;
+      padding: 28px;
+    }
+    label {
+      display: grid;
+      gap: 10px;
+      font-weight: 900;
+    }
+    input {
+      width: 100%;
+      min-height: 52px;
+      border: 2px dotted #aeb4bd;
+      border-radius: 12px;
+      padding: 0 15px;
+      color: var(--ink);
+      background: transparent;
+      font: inherit;
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(32, 174, 243, .1);
+    }
+    button {
+      min-height: 52px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0 24px;
+      color: white;
+      background: var(--black);
+      cursor: pointer;
+      font: 900 .96rem/1 "Noto Sans KR", system-ui, sans-serif;
+    }
+    .login-card button {
+      width: 100%;
+      margin-top: 18px;
+    }
+    .status {
+      min-height: 24px;
+      margin: 14px 0 0;
+      color: var(--orange);
+      font-weight: 800;
+      font-size: .92rem;
+    }
+    .dashboard {
+      display: none;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .dashboard.is-visible {
+      display: grid;
+    }
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .toolbar strong {
+      font-size: 1.05rem;
+    }
+    .list-panel,
+    .detail-panel {
+      padding: 20px;
+    }
+    .applicant-list {
+      display: grid;
+      gap: 10px;
+      max-height: 68vh;
+      overflow: auto;
+      padding-right: 4px;
+    }
+    .applicant-button {
+      width: 100%;
+      min-height: auto;
+      display: grid;
+      gap: 5px;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--ink);
+      background: var(--soft);
+      text-align: left;
+      box-shadow: none;
+    }
+    .applicant-button.is-active {
+      border-color: var(--blue);
+      background: #eef9ff;
+    }
+    .applicant-button strong {
+      font-size: 1rem;
+    }
+    .applicant-button span {
+      color: var(--muted);
+      font-size: .84rem;
+      font-weight: 700;
+    }
+    .detail-empty {
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .detail-title {
+      margin: 0 0 18px;
+      font-size: clamp(1.6rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: -.05em;
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .field,
+    .answer {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      background: #fff;
+    }
+    .field strong,
+    .answer strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: .82rem;
+      letter-spacing: .04em;
+    }
+    .field p,
+    .answer p {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: keep-all;
+    }
+    .answers {
+      display: grid;
+      gap: 14px;
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+    .actions button {
+      background: var(--orange);
+    }
+    @media (max-width: 820px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .applicant-list {
+        max-height: 300px;
+      }
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 560px) {
+      .admin-header {
+        padding: 16px;
+      }
+      .brand {
+        font-size: 1.12rem;
+      }
+      .brand img {
+        width: 34px;
+        height: 34px;
+      }
+      main {
+        padding: 38px 12px 64px;
+      }
+      .login-card,
+      .list-panel,
+      .detail-panel {
+        padding: 16px;
+        border-radius: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="admin-header">
+    <a class="brand" href="./">
+      <img src="assets/brand/blackbox-logo.png" alt="">
+      BLACKBOX
+    </a>
+    <a class="home-link" href="./">메인으로</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p>Admin</p>
+      <h1>지원자 대시보드</h1>
+    </section>
+
+    <section class="login-card" id="login-card">
+      <form id="admin-login">
+        <label>
+          운영자 비밀번호
+          <input id="admin-password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">대시보드 들어가기</button>
+        <p class="status" id="login-status"></p>
+      </form>
+    </section>
+
+    <section class="dashboard" id="dashboard">
+      <aside class="panel list-panel">
+        <div class="toolbar">
+          <strong>지원자 목록</strong>
+          <span id="applicant-count">0명</span>
+        </div>
+        <div class="applicant-list" id="applicant-list"></div>
+      </aside>
+
+      <section class="panel detail-panel">
+        <div class="actions">
+          <button type="button" id="refresh-button">새로고침</button>
+        </div>
+        <div id="applicant-detail" class="detail-empty">지원자를 선택하면 답변이 표시됩니다.</div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const BASIC_FIELDS = ['이름', '학번', '학과', '연락처', '이메일', '학년 또는 재학 상태'];
+    const ANSWER_FIELDS = [
+      '1. 간단한 자기소개와 함께, 다양한 창업 동아리 중에서 블랙박스를 선택하고 지원하시게 된 이유',
+      '2. 본인만의 강점이나 능력',
+      '3. 협업과 팀워크 경험 및 블랙박스에서의 적용',
+      '4. 실현하고 싶은 자신만의 창업 아이디어',
+      '5. 창업과 관련한 흥미',
+      '6. 블랙박스에서 활동하며 기대하는 성장',
+      '7. 정규 세션 참여 가능 여부'
+    ];
+
+    const loginForm = document.querySelector('#admin-login');
+    const passwordInput = document.querySelector('#admin-password');
+    const loginStatus = document.querySelector('#login-status');
+    const loginCard = document.querySelector('#login-card');
+    const dashboard = document.querySelector('#dashboard');
+    const applicantList = document.querySelector('#applicant-list');
+    const applicantCount = document.querySelector('#applicant-count');
+    const applicantDetail = document.querySelector('#applicant-detail');
+    const refreshButton = document.querySelector('#refresh-button');
+
+    let adminPassword = '';
+    let applications = [];
+    let selectedId = '';
+
+    function escapeHtml(value) {
+      return String(value || '-')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    async function loadApplications() {
+      loginStatus.textContent = '지원서를 불러오는 중입니다...';
+
+      const response = await fetch('/api/admin-applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: adminPassword })
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error('비밀번호가 맞지 않습니다.');
+        }
+
+        throw new Error('대시보드 설정 또는 Notion 연결을 확인해주세요.');
+      }
+
+      const data = await response.json();
+      applications = data.applications || [];
+      selectedId = applications[0]?.id || '';
+      renderDashboard();
+      loginStatus.textContent = '';
+    }
+
+    function renderDashboard() {
+      loginCard.style.display = 'none';
+      dashboard.classList.add('is-visible');
+      applicantCount.textContent = `${applications.length}명`;
+
+      applicantList.innerHTML = applications.map((application) => `
+        <button class="applicant-button ${application.id === selectedId ? 'is-active' : ''}" type="button" data-id="${application.id}">
+          <strong>${escapeHtml(application.name || application.fields['이름'])}</strong>
+          <span>${escapeHtml(application.studentId || application.fields['학번'])}</span>
+          <span>${escapeHtml(application.submittedAt || '')}</span>
+        </button>
+      `).join('');
+
+      renderDetail();
+    }
+
+    function renderDetail() {
+      const selected = applications.find((application) => application.id === selectedId);
+
+      if (!selected) {
+        applicantDetail.className = 'detail-empty';
+        applicantDetail.textContent = '지원자를 선택하면 답변이 표시됩니다.';
+        return;
+      }
+
+      applicantDetail.className = '';
+      applicantDetail.innerHTML = `
+        <h2 class="detail-title">${escapeHtml(selected.name)} (${escapeHtml(selected.studentId)})</h2>
+        <div class="field-grid">
+          ${BASIC_FIELDS.map((field) => `
+            <article class="field">
+              <strong>${escapeHtml(field)}</strong>
+              <p>${escapeHtml(selected.fields[field])}</p>
+            </article>
+          `).join('')}
+        </div>
+        <div class="answers">
+          ${ANSWER_FIELDS.map((field) => `
+            <article class="answer">
+              <strong>${escapeHtml(field)}</strong>
+              <p>${escapeHtml(selected.fields[field])}</p>
+            </article>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      adminPassword = passwordInput.value;
+
+      try {
+        await loadApplications();
+      } catch (error) {
+        loginStatus.textContent = error.message;
+      }
+    });
+
+    applicantList.addEventListener('click', (event) => {
+      const button = event.target.closest('.applicant-button');
+      if (!button) return;
+
+      selectedId = button.dataset.id;
+      renderDashboard();
+    });
+
+    refreshButton.addEventListener('click', async () => {
+      try {
+        await loadApplications();
+      } catch (error) {
+        applicantDetail.className = 'detail-empty';
+        applicantDetail.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>
