@@ -79,6 +79,25 @@ function parseTitle(title) {
   };
 }
 
+function getSubmittedAtOrder(pageBlock, submittedAt) {
+  const createdAt = Date.parse(pageBlock.created_time || '');
+
+  if (!Number.isNaN(createdAt)) {
+    return createdAt;
+  }
+
+  const normalized = submittedAt
+    .replace(/\s/g, '')
+    .match(/^(\d{4})\.(\d{2})\.(\d{2})\.(\d{2}):(\d{2})$/);
+
+  if (!normalized) {
+    return 0;
+  }
+
+  const [, year, month, day, hour, minute] = normalized;
+  return Date.parse(`${year}-${month}-${day}T${hour}:${minute}:00+09:00`);
+}
+
 function parseApplicationPage(pageBlock, blocks) {
   const title = pageBlock.child_page?.title || '지원서';
   const parsedTitle = parseTitle(title);
@@ -101,6 +120,7 @@ function parseApplicationPage(pageBlock, blocks) {
     id: pageBlock.id,
     title,
     ...parsedTitle,
+    submittedAtOrder: getSubmittedAtOrder(pageBlock, parsedTitle.submittedAt),
     fields
   };
 }
@@ -133,7 +153,7 @@ module.exports = async function handler(req, res) {
       applications.push(parseApplicationPage(pageBlock, blocks));
     }
 
-    applications.sort((a, b) => b.title.localeCompare(a.title, 'ko'));
+    applications.sort((a, b) => a.submittedAtOrder - b.submittedAtOrder);
     res.status(200).json({ ok: true, applications });
   } catch (error) {
     console.error(error);
