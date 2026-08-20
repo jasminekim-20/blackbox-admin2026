@@ -483,6 +483,9 @@ button { font: inherit; }
 .member-row-3 {
   grid-template-columns: repeat(3, minmax(210px, 250px));
 }
+.member-row-1 {
+  grid-template-columns: minmax(220px, 260px);
+}
 .member-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -508,6 +511,9 @@ button { font: inherit; }
 }
 .member-photo-sungbin {
   object-position: center 38%;
+}
+.member-photo-yunseon {
+  object-position: center 42%;
 }
 .member-photo-placeholder {
   display: grid;
