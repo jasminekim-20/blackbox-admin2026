@@ -111,7 +111,7 @@
       color: #2f3540;
       font-weight: 700;
     }
-    input:not([type="radio"]),
+    input:not([type="radio"]):not([type="checkbox"]),
     textarea {
       width: 100%;
       border: 2px dotted #aeb4bd;
@@ -126,7 +126,7 @@
       min-height: 130px;
       resize: vertical;
     }
-    input:not([type="radio"]):focus,
+    input:not([type="radio"]):not([type="checkbox"]):focus,
     textarea:focus {
       border-color: var(--blue);
       box-shadow: 0 0 0 4px rgba(32, 174, 243, .1);
@@ -154,6 +154,49 @@
       width: 22px;
       height: 22px;
       margin-top: 2px;
+      accent-color: var(--orange);
+    }
+    .interview-days {
+      display: grid;
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .interview-day {
+      padding: 18px;
+      border: 2px dotted #c5cad3;
+      border-radius: 14px;
+      background: #fbfcff;
+    }
+    .interview-day > strong {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--black);
+      font-size: 1rem;
+      font-weight: 900;
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .time-grid label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-height: 38px;
+      margin: 0;
+      padding: 8px 10px;
+      border: 1px solid #d7dbe3;
+      border-radius: 999px;
+      background: white;
+      font-size: .86rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .time-grid input {
+      width: 16px;
+      height: 16px;
       accent-color: var(--orange);
     }
     .submit-row {
@@ -212,6 +255,17 @@
       }
       textarea {
         min-height: 112px;
+      }
+      .time-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .interview-day {
+        padding: 14px;
+      }
+      .time-grid label {
+        min-height: 34px;
+        padding: 7px 8px;
+        font-size: .78rem;
       }
       .submit-row {
         align-items: stretch;
@@ -295,6 +349,89 @@
         </div>
       </section>
 
+      <section class="question-card">
+        <p class="question-title">8. 면접을 희망하시는 시간을 선택해주세요.</p>
+        <p class="helper">면접 방식과 가능한 시간을 모두 선택해주세요. 면접 시간은 8월 24일, 8월 25일, 8월 26일 중복 선택 가능합니다.</p>
+        <div class="choice-list">
+          <label><input type="radio" name="면접 방식" value="오프라인" required><span>오프라인</span></label>
+          <label><input type="radio" name="면접 방식" value="온라인"><span>온라인</span></label>
+        </div>
+        <div class="interview-days">
+          <div class="interview-day">
+            <strong>8월 24일</strong>
+            <div class="time-grid">
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 10:00"><span>10:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 10:30"><span>10:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 11:00"><span>11:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 11:30"><span>11:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 12:00"><span>12:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 12:30"><span>12:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 13:00"><span>13:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 13:30"><span>13:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 14:00"><span>14:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 14:30"><span>14:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 15:00"><span>15:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 15:30"><span>15:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 16:00"><span>16:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 16:30"><span>16:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 17:00"><span>17:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 17:30"><span>17:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 18:00"><span>18:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 18:30"><span>18:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/24 19:00"><span>19:00</span></label>
+            </div>
+          </div>
+          <div class="interview-day">
+            <strong>8월 25일</strong>
+            <div class="time-grid">
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 10:00"><span>10:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 10:30"><span>10:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 11:00"><span>11:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 11:30"><span>11:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 12:00"><span>12:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 12:30"><span>12:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 13:00"><span>13:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 13:30"><span>13:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 14:00"><span>14:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 14:30"><span>14:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 15:00"><span>15:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 15:30"><span>15:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 16:00"><span>16:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 16:30"><span>16:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 17:00"><span>17:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 17:30"><span>17:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 18:00"><span>18:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 18:30"><span>18:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/25 19:00"><span>19:00</span></label>
+            </div>
+          </div>
+          <div class="interview-day">
+            <strong>8월 26일</strong>
+            <div class="time-grid">
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 10:00"><span>10:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 10:30"><span>10:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 11:00"><span>11:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 11:30"><span>11:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 12:00"><span>12:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 12:30"><span>12:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 13:00"><span>13:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 13:30"><span>13:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 14:00"><span>14:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 14:30"><span>14:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 15:00"><span>15:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 15:30"><span>15:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 16:00"><span>16:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 16:30"><span>16:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 17:00"><span>17:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 17:30"><span>17:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 18:00"><span>18:00</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 18:30"><span>18:30</span></label>
+              <label><input type="checkbox" name="면접 희망 시간" value="8/26 19:00"><span>19:00</span></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="submit-row">
         <button type="submit">지원서 제출하기</button>
       </div>
@@ -303,11 +440,17 @@
   <script>
     const form = document.querySelector('#application-form');
     const submitButton = form?.querySelector('button[type="submit"]');
+    const interviewTimeInputs = [...document.querySelectorAll('input[name="면접 희망 시간"]')];
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       if (!form.reportValidity()) return;
+      if (!interviewTimeInputs.some((input) => input.checked)) {
+        alert('면접 희망 시간을 하나 이상 선택해주세요.');
+        interviewTimeInputs[0]?.focus();
+        return;
+      }
 
       const originalText = submitButton.textContent;
       submitButton.disabled = true;

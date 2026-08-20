@@ -14,7 +14,9 @@ const FIELD_LABELS = [
   '4. 실현하고 싶은 창업 아이디어',
   '창업 관심도',
   '6. 블랙박스 활동을 통해 기대하는 성장',
-  '정규 세션 참여 가능 여부'
+  '정규 세션 참여 가능 여부',
+  '면접 방식',
+  '면접 희망 시간'
 ];
 
 const QUESTION_TITLES = {
@@ -24,7 +26,9 @@ const QUESTION_TITLES = {
   '4. 실현하고 싶은 창업 아이디어': '4. 실현하고 싶은 자신만의 창업 아이디어',
   '창업 관심도': '5. 창업과 관련한 흥미',
   '6. 블랙박스 활동을 통해 기대하는 성장': '6. 블랙박스에서 활동하며 기대하는 성장',
-  '정규 세션 참여 가능 여부': '7. 정규 세션 참여 가능 여부'
+  '정규 세션 참여 가능 여부': '7. 정규 세션 참여 가능 여부',
+  '면접 방식': '8. 면접 방식',
+  '면접 희망 시간': '8. 면접 희망 시간'
 };
 
 function richText(content) {
@@ -89,6 +93,11 @@ async function parseBody(req) {
   const data = {};
 
   for (const [key, value] of params.entries()) {
+    if (data[key]) {
+      data[key] = `${data[key]}, ${value}`;
+      continue;
+    }
+
     data[key] = value;
   }
 
