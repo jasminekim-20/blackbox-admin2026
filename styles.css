@@ -811,6 +811,12 @@ button { font: inherit; }
   .card-grid, .member-grid, .member-row-2, .member-row-3, .journal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .members-heading .eyebrow { font-size: clamp(2rem, 10vw, 2.9rem); }
   .members-heading h2 { font-size: clamp(1rem, 4.5vw, 1.22rem); }
+  .member-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .member-row {
+    display: contents;
+  }
   .project-grid-wide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .schedule-grid, .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .horizontal-scroller, .programs-scroller { grid-auto-columns: minmax(280px, 82vw); }
