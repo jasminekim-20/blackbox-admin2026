@@ -778,10 +778,10 @@ button { font: inherit; }
   color: var(--blue);
 }
 .closed-modal-panel h2 {
-  margin: 14px 0 0;
-  font-size: clamp(1.55rem, 4vw, 2.25rem);
+  margin: 0;
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
   line-height: 1.25;
-  font-weight: 800;
+  font-weight: 600;
 }
 .closed-modal-close {
   position: absolute;
