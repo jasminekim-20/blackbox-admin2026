@@ -37,7 +37,7 @@
         <h1><span>BLACKBOX</span>WE PROVE<br>OUR POSSIBILITY.</h1>
         <p class="hero-copy">불확실한 아이디어를 실제 경험과 시장의 반응으로 검증하는 실전형 창업 동아리</p>
         <div class="hero-actions">
-          <a class="primary-button" href="application.html">33기 지원하기</a>
+          <a class="primary-button" href="application.html" data-closed-application>33기 지원하기</a>
         </div>
       </div>
       <div class="hero-shapes" aria-hidden="true">
@@ -343,9 +343,18 @@
         <p class="recruit-note">*필참 행사에 참여하지 않을 경우 수료 자격을 상실할 수 있습니다.</p>
       </div>
 
-      <a class="recruit-cta" href="application.html">33기 지원하기</a>
+      <a class="recruit-cta" href="application.html" data-closed-application>33기 지원하기</a>
     </section>
   </main>
+
+  <div class="closed-modal" role="dialog" aria-modal="true" aria-labelledby="closed-modal-title" hidden>
+    <div class="closed-modal-backdrop" data-close-closed-modal></div>
+    <div class="closed-modal-panel">
+      <button class="closed-modal-close" type="button" aria-label="닫기" data-close-closed-modal>×</button>
+      <p class="eyebrow">JOIN US</p>
+      <h2 id="closed-modal-title">서류 접수가 마감되었습니다.</h2>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <strong>BLACKBOX</strong>

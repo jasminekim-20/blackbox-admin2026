@@ -8,6 +8,9 @@ const projectFilterButtons = [...document.querySelectorAll('.tabs [data-generati
 const projectCards = [...document.querySelectorAll('.project-card[data-generation]')];
 const projectGroups = [...document.querySelectorAll('.project-group')];
 const projectEmpty = document.querySelector('.project-empty');
+const closedApplicationLinks = [...document.querySelectorAll('[data-closed-application]')];
+const closedModal = document.querySelector('.closed-modal');
+const closedModalCloseButtons = [...document.querySelectorAll('[data-close-closed-modal]')];
 const revealTargets = [
   ...document.querySelectorAll([
     '.section-heading',
@@ -31,6 +34,33 @@ menuButton?.addEventListener('click', () => {
   const open = nav.classList.toggle('is-open');
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+});
+
+const openClosedModal = () => {
+  if (!closedModal) return;
+  closedModal.hidden = false;
+  document.body.classList.add('modal-open');
+};
+
+const closeClosedModal = () => {
+  if (!closedModal) return;
+  closedModal.hidden = true;
+  document.body.classList.remove('modal-open');
+};
+
+closedApplicationLinks.forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    openClosedModal();
+  });
+});
+
+closedModalCloseButtons.forEach(button => {
+  button.addEventListener('click', closeClosedModal);
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') closeClosedModal();
 });
 
 navLinks.forEach(link => {
